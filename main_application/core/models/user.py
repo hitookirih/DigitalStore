@@ -2,9 +2,10 @@ from sqlalchemy import CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base
+from .mixins.int_id_pk import IntIdPkMixin
 
 
-class User(Base):
+class User(IntIdPkMixin, Base):
     __tablename__ = "users"
 
     name: Mapped[str] = mapped_column(nullable=False)

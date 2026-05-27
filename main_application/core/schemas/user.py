@@ -13,3 +13,13 @@ class UserCreate(UserBase):
 
 class UserRead(UserBase):
     id: int
+
+
+class UserUpdate(UserCreate):
+    pass
+
+
+class UserUpdatePartial(UserCreate):
+    name: str | None = None
+    phone: str | None = None
+    email: str | None = None

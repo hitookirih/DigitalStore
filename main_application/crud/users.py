@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import User
-from core.schemas.user import UserCreate
+from core.schemas.user import UserCreate, UserUpdatePartial
 
 
 async def get_all_users(
@@ -21,6 +21,24 @@ async def create_user(
 ) -> User:
     user = User(**user_create.model_dump())
     session.add(user)
+    await session.commit()
+    await session.refresh(user)
+    return user
+
+
+async def delete_user(session: AsyncSession, user: User) -> None:
+    await session.delete(user)
+    await session.commit()
+
+
+async def update_user(
+    session: AsyncSession,
+    user: User,
+    user_data: "UserUpdatePartial",
+    partial: bool = True,
+) -> User:
+    for name, value in user_data.model_dump(exclude_unset=partial).items():
+        setattr(user, name, value)
     await session.commit()
     await session.refresh(user)
     return user

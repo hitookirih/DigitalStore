@@ -16,6 +16,7 @@ class ApiV1Prefix(BaseModel):
     prefix: str = "/v1"
     users: str = "/users"
     products: str = "/products"
+    orders: str = "/orders"
 
 
 class AuthJwt(BaseModel):

@@ -16,7 +16,7 @@ class Order(OrderBase):
     created_at: datetime
 
 
-class OrderCreate(Order):
+class OrderCreate(BaseModel):
     user_id: int
     product_id: int
     quantity: int = 1

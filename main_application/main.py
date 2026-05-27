@@ -1,4 +1,6 @@
 from contextlib import asynccontextmanager
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 import uvicorn
 from fastapi import FastAPI
@@ -24,6 +26,16 @@ main_app.include_router(
     prefix=settings.api.prefix,
 )
 
+
+main_app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+main_app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 if __name__ == "__main__":
     uvicorn.run(

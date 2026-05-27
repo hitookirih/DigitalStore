@@ -1,8 +1,12 @@
 from sqlalchemy import CheckConstraint
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import TYPE_CHECKING
 
 from .base import Base
 from .mixins.int_id_pk import IntIdPkMixin
+
+if TYPE_CHECKING:
+    from .orders import Order
 
 
 class User(IntIdPkMixin, Base):
@@ -16,4 +20,9 @@ class User(IntIdPkMixin, Base):
         CheckConstraint(
             "email IS NOT NULL or phone IS NOT NULL", name="email_or_phone_required"
         ),
+    )
+
+    orders: Mapped[list["Order"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
     )

@@ -9,347 +9,233 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0c0c0f;
-      --surface:   #13131a;
-      --surface2:  #1a1a24;
-      --border:    #2a2a3a;
-      --accent:    #7c6aff;
-      --accent2:   #2feaa8;
-      --danger:    #ff5566;
-      --text:      #e8e8f0;
-      --muted:     #6b6b80;
-      --radius:    12px;
-      --mono:      'JetBrains Mono', monospace;
-      --sans:      'Syne', sans-serif;
+      --bg:       #0c0c0f;
+      --surface:  #13131a;
+      --surface2: #1a1a24;
+      --border:   #2a2a3a;
+      --accent:   #7c6aff;
+      --accent2:  #2feaa8;
+      --danger:   #ff5566;
+      --warn:     #ffaa33;
+      --text:     #e8e8f0;
+      --muted:    #6b6b80;
+      --radius:   12px;
+      --mono:     'JetBrains Mono', monospace;
+      --sans:     'Syne', sans-serif;
     }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
 
-    /* Background grid */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      position: fixed; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
       background-size: 40px 40px;
-      opacity: 0.25;
-      pointer-events: none;
-      z-index: 0;
+      opacity: 0.2; pointer-events: none; z-index: 0;
     }
-
-    /* Glow blobs */
     body::after {
       content: '';
-      position: fixed;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(124,106,255,0.12) 0%, transparent 70%);
-      top: -200px; left: -200px;
-      pointer-events: none;
-      z-index: 0;
+      position: fixed; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124,106,255,0.1) 0%, transparent 70%);
+      top: -200px; left: -200px; pointer-events: none; z-index: 0;
     }
-
     .glow2 {
-      position: fixed;
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(47,234,168,0.08) 0%, transparent 70%);
-      bottom: -150px; right: -150px;
-      pointer-events: none;
-      z-index: 0;
+      position: fixed; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(47,234,168,0.07) 0%, transparent 70%);
+      bottom: -150px; right: -150px; pointer-events: none; z-index: 0;
     }
 
-    /* Layout */
     .wrapper { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-    /* Header */
-    header {
-      padding: 28px 0 0;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 40px;
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
+    /* ── Header ── */
+    header { padding: 28px 0 0; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+    .logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
     .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
     .logo span { color: var(--accent2); }
 
     nav { display: flex; gap: 4px; }
-
     .nav-btn {
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-family: var(--sans);
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: var(--radius) var(--radius) 0 0;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 0.3px;
-      position: relative;
-      bottom: -1px;
+      background: none; border: none; color: var(--muted);
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      padding: 10px 20px; border-radius: var(--radius) var(--radius) 0 0;
+      cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px;
+      position: relative; bottom: -1px;
     }
     .nav-btn:hover { color: var(--text); background: var(--surface); }
     .nav-btn.active {
-      color: var(--text);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-bottom-color: var(--surface);
+      color: var(--text); background: var(--surface);
+      border: 1px solid var(--border); border-bottom-color: var(--surface);
     }
 
-    /* Section */
+    /* ── Sections ── */
     section { display: none; animation: fadeIn 0.3s ease; }
     section.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Section layout */
     .section-grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+    @media (max-width: 768px) { .section-grid { grid-template-columns: 1fr; } }
 
-    /* Cards */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
+    /* ── Cards ── */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
     .card-header {
-      padding: 18px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 18px 20px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .card-title {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--muted);
-    }
-    .badge {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--accent2);
-      font-family: var(--mono);
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 6px;
-    }
+    .card-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); }
+    .badge { background: var(--surface2); border: 1px solid var(--border); color: var(--accent2); font-family: var(--mono); font-size: 11px; padding: 3px 8px; border-radius: 6px; }
 
-    /* Table */
+    /* ── Table ── */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     thead th {
-      text-align: left;
-      padding: 12px 16px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
-      font-family: var(--mono);
+      text-align: left; padding: 12px 16px;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--muted); border-bottom: 1px solid var(--border); font-family: var(--mono);
     }
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background 0.15s;
-    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: var(--surface2); }
-    tbody td {
-      padding: 13px 16px;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 12px;
-    }
-    .id-cell {
-      color: var(--accent);
-      font-weight: 500;
-    }
-    .empty-row td {
-      text-align: center;
-      color: var(--muted);
-      padding: 32px;
-      font-family: var(--sans);
-      font-size: 13px;
-    }
+    tbody td { padding: 12px 16px; color: var(--text); font-family: var(--mono); font-size: 12px; }
+    .id-cell { color: var(--accent); font-weight: 500; }
+    .empty-row td { text-align: center; color: var(--muted); padding: 32px; font-family: var(--sans); font-size: 13px; }
+    .loading-row td { text-align: center; padding: 24px; color: var(--muted); }
 
-    /* Product cards */
+    /* ── Product cards ── */
     .products-grid { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-
     .product-card {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 16px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-      align-items: start;
-      transition: border-color 0.2s;
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 8px;
+      align-items: start; transition: border-color 0.2s;
     }
     .product-card:hover { border-color: var(--accent); }
-
-    .product-info {}
     .product-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-    .product-meta {
-      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;
-    }
-    .tag {
-      font-family: var(--mono);
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 5px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--muted);
-    }
+    .product-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+    .tag { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
     .tag.price { color: var(--accent2); border-color: rgba(47,234,168,0.3); }
     .product-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-    /* Form */
-    form { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    /* ── Order cards ── */
+    .orders-list { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .order-card {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; transition: border-color 0.2s;
+    }
+    .order-card:hover { border-color: var(--accent2); }
+    .order-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .order-id { font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 500; }
+    .order-date { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+    .order-body { display: flex; gap: 8px; flex-wrap: wrap; }
+    .order-tag { font-family: var(--mono); font-size: 10px; padding: 3px 8px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+    .order-tag.total { color: var(--accent2); border-color: rgba(47,234,168,0.3); }
+    .order-tag.qty { color: var(--warn); border-color: rgba(255,170,51,0.3); }
 
+    /* ── Form ── */
+    form { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
     .field { display: flex; flex-direction: column; gap: 6px; }
     label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); }
-
-    input, textarea {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 13px;
-      padding: 10px 14px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      width: 100%;
+    input, textarea, select {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-family: var(--mono); font-size: 13px; padding: 10px 14px;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
     }
-    input:focus, textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(124,106,255,0.15);
-    }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,106,255,0.15); }
     input::placeholder, textarea::placeholder { color: var(--muted); }
+    select option { background: var(--surface2); }
     textarea { resize: vertical; min-height: 72px; }
 
-    /* Buttons */
-    .btn {
-      font-family: var(--sans);
-      font-size: 13px;
-      font-weight: 700;
-      padding: 11px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 0.3px;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-    }
-    .btn-primary:hover {
-      background: #9385ff;
-      box-shadow: 0 4px 20px rgba(124,106,255,0.4);
-      transform: translateY(-1px);
-    }
+    /* ── Buttons ── */
+    .btn { font-family: var(--sans); font-size: 13px; font-weight: 700; padding: 11px 20px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #9385ff; box-shadow: 0 4px 20px rgba(124,106,255,0.35); transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0); }
+    .btn-success { background: var(--accent2); color: #0c0c0f; }
+    .btn-success:hover { background: #4fffc0; box-shadow: 0 4px 20px rgba(47,234,168,0.3); transform: translateY(-1px); }
+    .btn-danger { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 6px 10px; font-size: 11px; }
+    .btn-danger:hover { border-color: var(--danger); color: var(--danger); background: rgba(255,85,102,0.08); }
 
-    .btn-danger {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 6px 10px;
-      font-size: 11px;
-    }
-    .btn-danger:hover {
-      border-color: var(--danger);
-      color: var(--danger);
-      background: rgba(255,85,102,0.08);
-    }
+    /* ── Qty control ── */
+    .qty-control { display: flex; align-items: center; gap: 8px; }
+    .qty-control input { width: 70px; text-align: center; }
+    .qty-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text); width: 32px; height: 36px; border-radius: 6px; font-size: 16px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+    .qty-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* Toast */
+    /* ── Toast ── */
     .toast {
-      position: fixed;
-      bottom: 24px; right: 24px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 18px;
-      font-size: 13px;
-      z-index: 1000;
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      max-width: 320px;
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 18px; font-size: 13px; z-index: 1000;
+      transform: translateY(80px); opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); max-width: 320px;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { border-color: var(--accent2); color: var(--accent2); }
     .toast.error { border-color: var(--danger); color: var(--danger); }
 
-    /* Loading spinner */
-    .spinner {
-      display: inline-block;
-      width: 14px; height: 14px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
+    /* ── Spinner ── */
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .loading-row td { text-align: center; padding: 24px; color: var(--muted); }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .section-grid { grid-template-columns: 1fr; }
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      z-index: 100; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
     }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+      padding: 28px; width: 100%; max-width: 420px; margin: 0 16px;
+      transform: scale(0.95); transition: transform 0.2s;
+    }
+    .modal-overlay.open .modal { transform: scale(1); }
+    .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 20px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .modal-actions .btn { flex: 1; text-align: center; }
   </style>
 </head>
 <body>
 <div class="glow2"></div>
 
+<!-- Edit User Modal -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-title">Редактировать пользователя</div>
+    <input type="hidden" id="edit-user-id"/>
+    <div class="field" style="margin-bottom:14px">
+      <label>Имя</label>
+      <input type="text" id="edit-name" placeholder="Иван Иванов"/>
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label>Email</label>
+      <input type="email" id="edit-email" placeholder="ivan@example.com"/>
+    </div>
+    <div class="field">
+      <label>Телефон</label>
+      <input type="text" id="edit-phone" placeholder="+7 900 000 00 00"/>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" onclick="closeModal()">Отмена</button>
+      <button class="btn btn-primary" onclick="submitEdit()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
 <header>
   <div class="wrapper">
-    <div class="logo">
-      <div class="logo-dot"></div>
-      Digital<span>Store</span>
-    </div>
+    <div class="logo"><div class="logo-dot"></div>Digital<span>Store</span></div>
     <nav>
-      <button class="nav-btn active" onclick="switchTab('users', this)">Пользователи</button>
-      <button class="nav-btn" onclick="switchTab('products', this)">Товары</button>
+      <button class="nav-btn active" onclick="switchTab('users',this)">Пользователи</button>
+      <button class="nav-btn" onclick="switchTab('products',this)">Товары</button>
+      <button class="nav-btn" onclick="switchTab('orders',this)">Заказы</button>
     </nav>
   </div>
 </header>
 
 <main class="wrapper">
 
-  <!-- ===== USERS ===== -->
+  <!-- ══════════ USERS ══════════ -->
   <section id="users" class="active">
     <div class="section-grid">
-
       <div class="card">
         <div class="card-header">
           <span class="card-title">Пользователи</span>
@@ -357,25 +243,16 @@
         </div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Имя</th>
-                <th>Email</th>
-                <th>Телефон</th>
-              </tr>
-            </thead>
+            <thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>Телефон</th><th></th></tr></thead>
             <tbody id="users-tbody">
-              <tr class="loading-row"><td colspan="4"><span class="spinner"></span>Загрузка...</td></tr>
+              <tr class="loading-row"><td colspan="5"><span class="spinner"></span>Загрузка...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <span class="card-title">Добавить</span>
-        </div>
+        <div class="card-header"><span class="card-title">Добавить</span></div>
         <form id="user-form">
           <div class="field">
             <label>Имя *</label>
@@ -392,30 +269,24 @@
           <button type="submit" class="btn btn-primary">Добавить пользователя</button>
         </form>
       </div>
-
     </div>
   </section>
 
-  <!-- ===== PRODUCTS ===== -->
+  <!-- ══════════ PRODUCTS ══════════ -->
   <section id="products">
     <div class="section-grid">
-
       <div class="card">
         <div class="card-header">
           <span class="card-title">Каталог товаров</span>
           <span class="badge" id="products-count">0</span>
         </div>
         <div class="products-grid" id="products-grid">
-          <div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">
-            <span class="spinner"></span>Загрузка...
-          </div>
+          <div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;"><span class="spinner"></span>Загрузка...</div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <span class="card-title">Добавить товар</span>
-        </div>
+        <div class="card-header"><span class="card-title">Добавить товар</span></div>
         <form id="product-form">
           <div class="field">
             <label>Название *</label>
@@ -436,7 +307,48 @@
           <button type="submit" class="btn btn-primary">Добавить товар</button>
         </form>
       </div>
+    </div>
+  </section>
 
+  <!-- ══════════ ORDERS ══════════ -->
+  <section id="orders">
+    <div class="section-grid">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Все заказы</span>
+          <span class="badge" id="orders-count">0</span>
+        </div>
+        <div class="orders-list" id="orders-list">
+          <div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;"><span class="spinner"></span>Загрузка...</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">Создать заказ</span></div>
+        <form id="order-form">
+          <div class="field">
+            <label>Пользователь *</label>
+            <select id="order-user" required>
+              <option value="">— Выберите пользователя —</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Товар *</label>
+            <select id="order-product" required>
+              <option value="">— Выберите товар —</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Количество *</label>
+            <div class="qty-control">
+              <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+              <input type="number" id="order-qty" value="1" min="1" max="99" required/>
+              <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success">Оформить заказ</button>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -445,152 +357,297 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // ─── Конфиг ───────────────────────────────────────────────
-  const API = 'http://localhost:8000/api/v1';
+const API = 'http://localhost:8000/api/v1';
 
-  // ─── Утилиты ──────────────────────────────────────────────
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = `toast ${type} show`;
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => t.classList.remove('show'), 3000);
-  }
+// ── Toast ─────────────────────────────────────────────────
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3200);
+}
 
-  function switchTab(id, btn) {
-    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    btn.classList.add('active');
-    if (id === 'users') loadUsers();
-    if (id === 'products') loadProducts();
-  }
+// ── Tab switching ──────────────────────────────────────────
+function switchTab(id, btn) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'users')    loadUsers();
+  if (id === 'products') loadProducts();
+  if (id === 'orders')   loadOrders();
+}
 
-  // ─── Пользователи ─────────────────────────────────────────
-  async function loadUsers() {
-    const tbody = document.getElementById('users-tbody');
-    tbody.innerHTML = '<tr class="loading-row"><td colspan="4"><span class="spinner"></span>Загрузка...</td></tr>';
-    try {
-      const res = await fetch(`${API}/users/`);
-      if (!res.ok) throw new Error(`Ошибка ${res.status}`);
-      const users = await res.json();
-      document.getElementById('users-count').textContent = users.length;
-      if (users.length === 0) {
-        tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Пользователей пока нет</td></tr>';
-        return;
-      }
-      tbody.innerHTML = users.map(u => `
-        <tr>
-          <td class="id-cell">#${u.id}</td>
-          <td>${u.name ?? '—'}</td>
-          <td>${u.email ?? '—'}</td>
-          <td>${u.phone ?? '—'}</td>
-        </tr>
-      `).join('');
-    } catch (e) {
-      tbody.innerHTML = `<tr class="empty-row"><td colspan="4">Не удалось загрузить данные</td></tr>`;
-      showToast('Ошибка загрузки пользователей', 'error');
+// ── Modal ─────────────────────────────────────────────────
+function openEditModal(id, name, email, phone) {
+  document.getElementById('edit-user-id').value = id;
+  document.getElementById('edit-name').value = name || '';
+  document.getElementById('edit-email').value = email || '';
+  document.getElementById('edit-phone').value = phone || '';
+  document.getElementById('edit-modal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+}
+document.getElementById('edit-modal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+async function submitEdit() {
+  const id = document.getElementById('edit-user-id').value;
+  const body = {};
+  const name  = document.getElementById('edit-name').value.trim();
+  const email = document.getElementById('edit-email').value.trim();
+  const phone = document.getElementById('edit-phone').value.trim();
+  if (name)  body.name  = name;
+  if (email) body.email = email;
+  if (phone) body.phone = phone;
+
+  try {
+    const res = await fetch(`${API}/users/${id}/`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail?.[0]?.msg ?? `Ошибка ${res.status}`);
     }
+    closeModal();
+    await loadUsers();
+    showToast('Пользователь обновлён', 'success');
+  } catch (err) {
+    showToast(err.message, 'error');
   }
+}
 
-  document.getElementById('user-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const body = { name: fd.get('name') };
-    if (fd.get('email')) body.email = fd.get('email');
-    if (fd.get('phone')) body.phone = fd.get('phone');
+// ── USERS ─────────────────────────────────────────────────
+async function loadUsers() {
+  const tbody = document.getElementById('users-tbody');
+  tbody.innerHTML = '<tr class="loading-row"><td colspan="5"><span class="spinner"></span>Загрузка...</td></tr>';
+  try {
+    const res = await fetch(`${API}/users/`);
+    if (!res.ok) throw new Error();
+    const users = await res.json();
+    document.getElementById('users-count').textContent = users.length;
 
-    try {
-      const res = await fetch(`${API}/users/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.detail?.[0]?.msg ?? `Ошибка ${res.status}`);
-      }
-      e.target.reset();
-      await loadUsers();
-      showToast('Пользователь добавлен', 'success');
-    } catch (err) {
-      showToast(err.message, 'error');
+    // Обновляем селект в форме заказов
+    const sel = document.getElementById('order-user');
+    const prev = sel.value;
+    sel.innerHTML = '<option value="">— Выберите пользователя —</option>';
+    users.forEach(u => {
+      const o = document.createElement('option');
+      o.value = u.id;
+      o.textContent = `#${u.id} — ${u.name}`;
+      sel.appendChild(o);
+    });
+    if (prev) sel.value = prev;
+
+    if (users.length === 0) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Пользователей пока нет</td></tr>';
+      return;
     }
-  });
+    tbody.innerHTML = users.map(u => `
+      <tr>
+        <td class="id-cell">#${u.id}</td>
+        <td>${u.name ?? '—'}</td>
+        <td>${u.email ?? '—'}</td>
+        <td>${u.phone ?? '—'}</td>
+        <td style="display:flex;gap:6px;padding:8px 16px">
+          <button class="btn btn-danger" onclick="openEditModal(${u.id},'${u.name ?? ''}','${u.email ?? ''}','${u.phone ?? ''}')">✎</button>
+          <button class="btn btn-danger" onclick="deleteUser(${u.id})">✕</button>
+        </td>
+      </tr>
+    `).join('');
+  } catch {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Не удалось загрузить данные</td></tr>';
+    showToast('Ошибка загрузки пользователей', 'error');
+  }
+}
 
-  // Товары
-  async function loadProducts() {
-    const grid = document.getElementById('products-grid');
-    grid.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;"><span class="spinner"></span>Загрузка...</div>';
-    try {
-      const res = await fetch(`${API}/products/`);
-      if (!res.ok) throw new Error(`Ошибка ${res.status}`);
-      const products = await res.json();
-      document.getElementById('products-count').textContent = products.length;
-      if (products.length === 0) {
-        grid.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">Товаров пока нет</div>';
-        return;
-      }
-      grid.innerHTML = products.map(p => `
-        <div class="product-card" id="product-${p.id}">
-          <div class="product-info">
-            <div class="product-name">${p.name}</div>
-            <div class="product-meta">
-              <span class="tag">${p.category}</span>
-              <span class="tag price">${Number(p.price).toLocaleString('ru-RU')} ₽</span>
-            </div>
-            <div class="product-desc">${p.description}</div>
+async function deleteUser(id) {
+  if (!confirm('Удалить пользователя? Это действие нельзя отменить.')) return;
+  try {
+    const res = await fetch(`${API}/users/${id}/`, { method: 'DELETE' });
+    if (!res.ok) throw new Error();
+    await loadUsers();
+    showToast('Пользователь удалён', 'success');
+  } catch {
+    showToast('Не удалось удалить пользователя', 'error');
+  }
+}
+
+document.getElementById('user-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const body = { name: fd.get('name') };
+  if (fd.get('email')) body.email = fd.get('email');
+  if (fd.get('phone')) body.phone = fd.get('phone');
+  try {
+    const res = await fetch(`${API}/users/`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail?.[0]?.msg ?? `Ошибка ${res.status}`);
+    }
+    e.target.reset();
+    await loadUsers();
+    showToast('Пользователь добавлен', 'success');
+  } catch (err) { showToast(err.message, 'error'); }
+});
+
+// ── PRODUCTS ──────────────────────────────────────────────
+async function loadProducts() {
+  const grid = document.getElementById('products-grid');
+  grid.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;"><span class="spinner"></span>Загрузка...</div>';
+  try {
+    const res = await fetch(`${API}/products/`);
+    if (!res.ok) throw new Error();
+    const products = await res.json();
+    document.getElementById('products-count').textContent = products.length;
+
+    // Обновляем селект в форме заказов
+    const sel = document.getElementById('order-product');
+    const prev = sel.value;
+    sel.innerHTML = '<option value="">— Выберите товар —</option>';
+    products.forEach(p => {
+      const o = document.createElement('option');
+      o.value = p.id;
+      o.textContent = `${p.name} — ${Number(p.price).toLocaleString('ru-RU')} ₽`;
+      sel.appendChild(o);
+    });
+    if (prev) sel.value = prev;
+
+    if (products.length === 0) {
+      grid.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">Товаров пока нет</div>';
+      return;
+    }
+    grid.innerHTML = products.map(p => `
+      <div class="product-card" id="product-${p.id}">
+        <div class="product-info">
+          <div class="product-name">${p.name}</div>
+          <div class="product-meta">
+            <span class="tag">${p.category}</span>
+            <span class="tag price">${Number(p.price).toLocaleString('ru-RU')} ₽</span>
           </div>
-          <button class="btn btn-danger" onclick="deleteProduct(${p.id})">✕</button>
+          <div class="product-desc">${p.description}</div>
         </div>
-      `).join('');
-    } catch (e) {
-      grid.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">Не удалось загрузить данные</div>';
-      showToast('Ошибка загрузки товаров', 'error');
+        <button class="btn btn-danger" onclick="deleteProduct(${p.id})">✕</button>
+      </div>
+    `).join('');
+  } catch {
+    grid.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">Не удалось загрузить данные</div>';
+    showToast('Ошибка загрузки товаров', 'error');
+  }
+}
+
+document.getElementById('product-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const body = { name: fd.get('name'), description: fd.get('description'), price: parseFloat(fd.get('price')), category: fd.get('category') };
+  try {
+    const res = await fetch(`${API}/products/`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail?.[0]?.msg ?? `Ошибка ${res.status}`);
     }
+    e.target.reset();
+    await loadProducts();
+    showToast('Товар добавлен', 'success');
+  } catch (err) { showToast(err.message, 'error'); }
+});
+
+async function deleteProduct(id) {
+  try {
+    const res = await fetch(`${API}/products/${id}/`, { method: 'DELETE' });
+    if (!res.ok) throw new Error();
+    document.getElementById(`product-${id}`)?.remove();
+    const c = document.getElementById('products-count');
+    c.textContent = parseInt(c.textContent) - 1;
+    showToast('Товар удалён', 'success');
+  } catch { showToast('Не удалось удалить товар', 'error'); }
+}
+
+// ── ORDERS ────────────────────────────────────────────────
+async function loadOrders() {
+  const list = document.getElementById('orders-list');
+  list.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;"><span class="spinner"></span>Загрузка...</div>';
+
+  // Параллельно грузим заказы + пользователей + товары для селектов
+  await Promise.all([loadUsers(), loadProducts()]);
+
+  try {
+    const res = await fetch(`${API}/orders/`);
+    if (!res.ok) throw new Error();
+    const orders = await res.json();
+    document.getElementById('orders-count').textContent = orders.length;
+
+    if (orders.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">Заказов пока нет</div>';
+      return;
+    }
+    list.innerHTML = orders.map(o => {
+      const date = new Date(o.created_at).toLocaleString('ru-RU', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+      return `
+        <div class="order-card">
+          <div class="order-header">
+            <span class="order-id">Заказ #${o.id}</span>
+            <span class="order-date">${date}</span>
+          </div>
+          <div class="order-body">
+            <span class="order-tag">Пользователь #${o.user_id}</span>
+            <span class="order-tag">Товар #${o.product_id}</span>
+            <span class="order-tag qty">× ${o.quantity} шт.</span>
+            <span class="order-tag total">${Number(o.total_price).toLocaleString('ru-RU')} ₽</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch {
+    list.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">Не удалось загрузить заказы</div>';
+    showToast('Ошибка загрузки заказов', 'error');
+  }
+}
+
+function changeQty(delta) {
+  const input = document.getElementById('order-qty');
+  const val = Math.max(1, Math.min(99, parseInt(input.value || 1) + delta));
+  input.value = val;
+}
+
+document.getElementById('order-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const user_id    = parseInt(document.getElementById('order-user').value);
+  const product_id = parseInt(document.getElementById('order-product').value);
+  const quantity   = parseInt(document.getElementById('order-qty').value);
+
+  if (!user_id || !product_id) {
+    showToast('Выберите пользователя и товар', 'error');
+    return;
   }
 
-  document.getElementById('product-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const body = {
-      name:        fd.get('name'),
-      description: fd.get('description'),
-      price:       parseFloat(fd.get('price')),
-      category:    fd.get('category')
-    };
-    try {
-      const res = await fetch(`${API}/products/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.detail?.[0]?.msg ?? `Ошибка ${res.status}`);
-      }
-      e.target.reset();
-      await loadProducts();
-      showToast('Товар добавлен', 'success');
-    } catch (err) {
-      showToast(err.message, 'error');
+  try {
+    const res = await fetch(`${API}/orders/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id, product_id, quantity })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail ?? `Ошибка ${res.status}`);
     }
-  });
+    document.getElementById('order-qty').value = 1;
+    await loadOrders();
+    showToast('Заказ оформлен!', 'success');
+  } catch (err) { showToast(err.message, 'error'); }
+});
 
-  async function deleteProduct(id) {
-    try {
-      const res = await fetch(`${API}/products/${id}/`, { method: 'DELETE' });
-      if (!res.ok) throw new Error(`Ошибка ${res.status}`);
-      document.getElementById(`product-${id}`)?.remove();
-      const count = document.getElementById('products-count');
-      count.textContent = parseInt(count.textContent) - 1;
-      showToast('Товар удалён', 'success');
-    } catch (err) {
-      showToast('Не удалось удалить товар', 'error');
-    }
-  }
-
-  loadUsers();
+// ── Init ──────────────────────────────────────────────────
+loadUsers();
 </script>
 </body>
 </html>

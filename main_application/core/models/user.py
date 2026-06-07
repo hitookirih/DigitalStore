@@ -15,6 +15,7 @@ class User(IntIdPkMixin, Base):
     name: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
+    password: Mapped[str] = mapped_column(unique=False)
 
     __table_args__ = (
         CheckConstraint(

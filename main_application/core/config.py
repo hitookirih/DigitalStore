@@ -50,6 +50,7 @@ class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
     db: DatabaseConfig
+    auth: AuthJwt = AuthJwt()
 
 
 settings = Settings()

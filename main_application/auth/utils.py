@@ -14,7 +14,7 @@ def encode_jwt(
     expire_timedelta: timedelta | None = None,
 ) -> str:
     to_encode = payload.copy()
-    now = datetime.utcnow()
+    now = datetime.now()
     if expire_timedelta:
         expire = now + expire_timedelta
     else:

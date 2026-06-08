@@ -8,9 +8,9 @@ from core.config import settings
 
 def encode_jwt(
     payload: dict,
-    private_key: str = settings.auth_jwt.private_key_path.read_text(),
-    algorithm: str = settings.auth_jwt.algorithm,
-    expire_minutes: int = settings.auth_jwt.access_token_expire_minutes,
+    private_key: str = settings.auth.private_key_path.read_text(),
+    algorithm: str = settings.auth.algorithm,
+    expire_minutes: int = settings.auth.access_token_expire_minutes,
     expire_timedelta: timedelta | None = None,
 ) -> str:
     to_encode = payload.copy()
@@ -33,8 +33,8 @@ def encode_jwt(
 
 def decode_jwt(
     token: str | bytes,
-    public_key: str = settings.auth_jwt.public_key_path.read_text(),
-    algorithm: str = settings.auth_jwt.algorithm,
+    public_key: str = settings.auth.public_key_path.read_text(),
+    algorithm: str = settings.auth.algorithm,
 ) -> dict:
     decoded = jwt.decode(
         token,
@@ -46,17 +46,17 @@ def decode_jwt(
 
 def hash_password(
     password: str,
-) -> bytes:
+) -> str:
     salt = bcrypt.gensalt()
     pwd_bytes: bytes = password.encode()
-    return bcrypt.hashpw(pwd_bytes, salt)
+    return bcrypt.hashpw(pwd_bytes, salt).decode("utf-8")
 
 
 def validate_password(
     password: str,
-    hashed_password: bytes,
+    hashed_password: str,
 ) -> bool:
     return bcrypt.checkpw(
-        password=password.encode(),
-        hashed_password=hashed_password,
+        password=password.encode("utf-8"),
+        hashed_password=hashed_password.encode("utf-8"),
     )

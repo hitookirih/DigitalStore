@@ -1,4 +1,5 @@
-from typing import Sequence
+from pathlib import Path
+from typing import Sequence, Annotated
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,6 +15,15 @@ async def get_all_users(
     stmt = select(User).order_by(User.id)
     result = await session.scalars(stmt)
     return result.all()
+
+
+async def get_user_by_email(
+    session: AsyncSession,
+    user_email: Annotated[str, Path],
+) -> User | None:
+    stmt = select(User).where(User.email == user_email)
+    result = await session.execute(stmt)
+    return result.scalar_one_or_none()
 
 
 async def create_user(

@@ -19,6 +19,20 @@ async def get_users(session: AsyncSession = Depends(db_helper.session_getter)):
     return users
 
 
+@router.get("/{user_id}/", response_model=UserRead)
+async def get_user(user: Depends = Depends(user_by_id)):
+    return user
+
+
+@router.get("/{user_email}/", response_model=UserRead)
+async def get_user_by_email(
+    user_email: str,
+    session: AsyncSession = Depends(db_helper.session_getter),
+):
+    user = await users_crud.get_user_by_email(session, user_email)
+    return user
+
+
 @router.post("/", response_model=UserRead)
 async def create_user(
     user_create: UserCreate,

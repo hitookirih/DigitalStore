@@ -3,6 +3,7 @@ from typing import Sequence
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from auth.utils import hash_password
 from core.models import User
 from core.schemas.user import UserCreate, UserUpdatePartial
 

@@ -1,11 +1,13 @@
 from pydantic import BaseModel, EmailStr
 
 
+
 class UserBase(BaseModel):
     name: str
     phone: str
     email: EmailStr
-    password: bytes
+    password: str
+
 
 
 class UserCreate(UserBase):
@@ -16,9 +18,13 @@ class UserRead(UserBase):
     id: int
 
 
+
 class UserUpdate(UserCreate):
     pass
 
+
+class UserAuth(UserBase):
+    is_active: bool = True
 
 class UserUpdatePartial(UserCreate):
     name: str | None = None

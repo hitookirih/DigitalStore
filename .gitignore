@@ -218,3 +218,5 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+/main_application/certs/private.pem
+/main_application/certs/public.pem

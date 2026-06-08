@@ -5,7 +5,7 @@ from core.models import db_helper
 from core.schemas.orders import Order, OrderCreate
 from crud import orders as crud_orders
 
-router = APIRouter(tags=["orders"])
+router = APIRouter(tags=["Orders"])
 
 
 @router.get("/", response_model=list[Order])

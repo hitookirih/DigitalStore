@@ -19,7 +19,10 @@ async def create_user(
     session: AsyncSession,
     user_create: UserCreate,
 ) -> User:
-    user = User(**user_create.model_dump())
+    user_data = user_create.model_dump()
+    user_data["password"] = hash_password(user_data["password"])
+
+    user = User(**user_data)
     session.add(user)
     await session.commit()
     await session.refresh(user)

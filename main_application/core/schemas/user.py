@@ -16,15 +16,12 @@ class UserCreate(UserBase):
 
 class UserRead(UserBase):
     id: int
-
+    is_active: bool = True
 
 
 class UserUpdate(UserCreate):
     pass
 
-
-class UserAuth(UserBase):
-    is_active: bool = True
 
 class UserUpdatePartial(UserCreate):
     name: str | None = None

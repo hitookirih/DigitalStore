@@ -30,8 +30,8 @@ async def create_order(
 ):
     try:
         return await crud_orders.create_order(session, order_in)
-    except ValueError as e:
+    except ValueError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=str(e),
+            detail="Order not found",
         )

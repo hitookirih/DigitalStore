@@ -1,9 +1,5 @@
-from datetime import datetime, timezone
-
 from jwt.exceptions import InvalidTokenError
 from fastapi.security import (
-    HTTPBearer,
-    HTTPAuthorizationCredentials,
     OAuth2PasswordBearer,
 )
 from fastapi import (
@@ -15,6 +11,7 @@ from fastapi import (
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from auth.helpers import create_access_token, create_refresh_token
 from core.models import db_helper, User
 from core.schemas.token import TokenInfo
 from auth import utils as auth_utils
@@ -102,14 +99,9 @@ async def get_current_active_auth_user(
 async def auth_user_issue(
     user: User = Depends(validate_auth_user),
 ):
-    payload = {
-        "sub": user.email,
-        "login": user.email,
-        "name": user.name,
-        "logged_in_at": datetime.now(timezone.utc).isoformat(),
-    }
-    access_token = auth_utils.encode_jwt(payload)
+    access_token = await create_access_token(user)
+    refresh_token = await create_refresh_token(user)
     return TokenInfo(
         access_token=access_token,
-        token_type="Bearer",
+        refresh_token=refresh_token,
     )

@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from fastapi import Depends
+from fastapi import Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth.user_auth import get_current_active_auth_user
@@ -28,3 +28,11 @@ async def change_user_data(
     session: AsyncSession = Depends(db_helper.session_getter),
 ):
     return await users_crud.update_user(session, user, user_update, partial=True)
+
+
+@router.delete("/me/", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_account(
+    user: User = Depends(get_current_active_auth_user),
+    session: AsyncSession = Depends(db_helper.session_getter),
+):
+    return await users_crud.delete_user(session, user)

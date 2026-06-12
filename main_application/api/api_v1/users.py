@@ -3,7 +3,6 @@ from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from auth.user_auth import get_current_active_auth_user
 from core.models import db_helper
 from .user_dependencies import user_by_id
 from core.schemas.user import UserUpdatePartial
@@ -18,17 +17,6 @@ router = APIRouter(tags=["Users"])
 async def get_users(session: AsyncSession = Depends(db_helper.session_getter)):
     users = await users_crud.get_all_users(session=session)
     return users
-
-
-@router.get("/me/")
-async def get_me(
-    user: User = Depends(get_current_active_auth_user),
-):
-    return {
-        "name": user.name,
-        "email": user.email,
-        "phone": user.phone,
-    }
 
 
 @router.get("/{user_id}/", response_model=UserRead)

@@ -18,6 +18,7 @@ class ApiV1Prefix(BaseModel):
     products: str = "/products"
     orders: str = "/orders"
     auth: str = "/auth"
+    auth_user: str = "/auth_user"
 
 
 class AuthJwt(BaseModel):
